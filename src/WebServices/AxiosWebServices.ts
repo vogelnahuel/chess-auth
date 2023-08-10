@@ -1,9 +1,9 @@
+/* eslint-disable class-methods-use-this */
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import HttpCustomException from '../Exceptions/HttpCustomException';
 import axios from '../Helpers/Utils/InterceptedAxios';
-import { AxiosRequestConfig, AxiosResponse } from "axios";
-import HttpCustomException from 'src/Exceptions/HttpCustomException';
 
 export abstract class AxiosWebServices {
-
     async get<R = any>(url: string, config?: AxiosRequestConfig): Promise<R> {
         try {
             const response: AxiosResponse<R> = await axios.get<R>(url, config);
@@ -42,7 +42,7 @@ export abstract class AxiosWebServices {
 
     protected buildAxiosRequestConfig(headers: any = null): AxiosRequestConfig {
         const config: AxiosRequestConfig = {
-            headers: headers,
+            headers,
         };
         return config;
     }

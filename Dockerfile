@@ -1,16 +1,11 @@
-FROM node:18-alpine3.15
+FROM node:18.12-buster-slim
 
-# RUN mkdir -p ./
-WORKDIR /usr/src/app
+ENV APP $APP
 
-COPY . .
-COPY package.json tsconfig.build.json tsconfig.json /
+WORKDIR /app
+COPY package.json package-lock.json /app/
+COPY . /app/
+RUN chmod +x /app/docker-entrypoint.sh
 RUN npm install
 RUN npm run build
-
-# RUN adduser --disabled-password esolutionsTeam
-# RUN chown -R esolutionsTeam:esolutionsTeam /
-# USER esolutionsTeam
-EXPOSE 3003
-RUN npm cache clean -f
-CMD ["npm","start"]
+ENTRYPOINT ["/app/docker-entrypoint.sh"]

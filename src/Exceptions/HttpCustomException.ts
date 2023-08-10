@@ -3,22 +3,13 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 export default class HttpCustomException extends HttpException {
     errors: any;
 
-    constructor(
-        message: any,
-        statusCode: number,
-        statusText?: string,
-        errors?: any,
-        httpCode: number = HttpStatus.BAD_REQUEST,
-    ) {
-        super(
-            HttpException.createBody(message, HttpCustomException.getStatusText(statusText, statusCode), statusCode),
-            httpCode,
-        );
+    constructor(message: any, statusCode: number, statusText?: string, errors?: any, httpCode: number = HttpStatus.BAD_REQUEST) {
+        super(HttpException.createBody(message, HttpCustomException.getStatusText(statusText), statusCode), httpCode);
         this.errors = errors;
     }
 
-    public static getStatusText(statusText: string, statusCode: number) {
-        return statusText ? statusText : 'Bad Request';
+    public static getStatusText(statusText: string) {
+        return statusText || 'Bad Request';
     }
 
     public static createHttpCustomExceptionFromError(error: any): HttpCustomException {

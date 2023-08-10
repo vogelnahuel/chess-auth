@@ -1,22 +1,18 @@
-version: '3.8'
+version: '3'
 
 services:
-  api:
-    image: admin
-    networks:
-      - proxynet
-    build: 
-      context: .
-      dockerfile: Dockerfile
-    command: npm run start:debug
-    volumes:
-      - ".:/usr/src/app"
-      - "/usr/src/app/node_modules"
+  postgres:
+    container_name: users_ms_postgres
+    image: "postgres:15.2-alpine"
+    user: postgres
+    environment:
+      - POSTGRES_USER=users_ms
+      - POSTGRES_PASSWORD=users_ms
+      - POSTGRES_DB=users_ms
     ports:
-      - 4003:4003
-      - 9231:9231
-    tty: true
-
-networks:
-  proxynet:
-    name: custom_network     
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+volumes:
+  postgres_data:
+    driver: local

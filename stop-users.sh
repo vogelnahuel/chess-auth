@@ -1,0 +1,1 @@
+docker stop users_ms_postgres

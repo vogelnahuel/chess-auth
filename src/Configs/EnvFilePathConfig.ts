@@ -1,9 +1,10 @@
+import * as logger from 'better-console-log-plus';
 import EnumEnv from './EnumEnv';
 
 export const envFilePathConfiguration = (): string => {
-    console.log(`Entorno - ${process.env.SEED_ENV}`);
+    logger.info(`Entorno - ${process.env.USERS_CCU_ENV}`);
     let envFilePath;
-    switch (process.env.SEED_ENV) {
+    switch (process.env.USERS_CCU_ENV) {
         case EnumEnv.LOCAL:
             envFilePath = '.env.local';
             break;
@@ -16,6 +17,6 @@ export const envFilePathConfiguration = (): string => {
         default:
             envFilePath = '.env';
     }
-    console.log(`envFilePath: ` + envFilePath);
+    logger.info(`envFilePath: ${envFilePath}`);
     return envFilePath;
 };
