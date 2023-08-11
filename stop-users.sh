@@ -1,1 +1,1 @@
-docker stop users_ms_postgres
+docker stop auth_ms_postgres
