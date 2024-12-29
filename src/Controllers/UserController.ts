@@ -18,23 +18,8 @@ export class UserController {
 
     @GrpcMethod('UserService', 'GetUser')
     async getUser(data: UserProto.GetUserRequest) {
-        const user = await this.userService.findById(data.id);
+        const user: any = await this.userService.findById(data.id);
         return { user: this.toProtoUser(user) };
-    }
-
-    @GrpcMethod('UserService', 'UpdateUser')
-    async updateUser(data: UserProto.UpdateUserRequest){
-        const updatedUser = await this.userService.update(data);
-        return {
-            message: 'User updated successfully',
-            user: this.toProtoUser(updatedUser),
-        };
-    }
-
-    @GrpcMethod('UserService', 'DeleteUser')
-    async deleteUser(data: UserProto.DeleteUserRequest) {
-        await this.userService.remove(data.id);
-        return { message: 'User deleted successfully' };
     }
 
     private toProtoUser(user: User) {
