@@ -37,7 +37,7 @@ async function bootstrap() {
 
     app.use(BodyParser.json());
     app.use(BodyParser.urlencoded({ extended: true }));
-    app.setGlobalPrefix('api/v1/auth-seed-ms');
+    app.setGlobalPrefix('api/v1/chess-auth-ms');
     app.enableCors();
     await app.startAllMicroservices(); // Inicia el microservicio gRPC
     await app.listen(configService.get<string>('PORT'));
