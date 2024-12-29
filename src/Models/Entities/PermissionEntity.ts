@@ -15,4 +15,20 @@ export class Permission {
         inverseJoinColumn: { name: 'user_id', referencedColumnName: 'id' },
     })
     users: User[];
+
+    getName(): string {
+        return this.name;
+    }
+
+    getUsers(): User[] {
+        return this.users;
+    }
+
+    setName(name: string): void {
+        this.name = name;
+    }
+
+    setUsers(users: User[]): void {
+        this.users = users;
+    }
 }

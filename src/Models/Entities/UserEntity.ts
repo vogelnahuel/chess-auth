@@ -22,4 +22,44 @@ export class User {
     @ManyToMany(() => Permission, (permission) => permission.users)
     @JoinTable()
     permissions: Permission[];
+
+    getName(): string {
+        return this.name;
+    }
+
+    getEmail(): string {
+        return this.email;
+    }
+
+    getAddress(): string {
+        return this.address;
+    }
+
+    getRole(): Role {
+        return this.role;
+    }
+
+    getPermissions(): Permission[] {
+        return this.permissions;
+    }
+
+    setName(name: string): void {
+        this.name = name;
+    }
+
+    setEmail(email: string): void {
+        this.email = email;
+    }
+
+    setAddress(address: string): void {
+        this.address = address;
+    }
+
+    setRole(role: Role): void {
+        this.role = role;
+    }
+
+    setPermissions(permissions: Permission[]): void {
+        this.permissions = permissions;
+    }
 }
