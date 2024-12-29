@@ -4,7 +4,9 @@
   "monorepo": true,
   "root": "src",
   "compilerOptions": {
-    "webpack": true
+    "webpack": true,
+    "assets": ["**/*.proto"],
+    "watchAssets": true
   },
   "projects": {
     "api": {

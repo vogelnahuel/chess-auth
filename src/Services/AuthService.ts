@@ -1,47 +1,31 @@
 import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { AuthDao } from '../Daos/AuthDao';
+import { auth as Auth } from '../Protos/User';
+import PasswordUtils from '../Helpers/Utils/PasswordFunctions';
+import HttpCustomException from '../Exceptions/HttpCustomException';
+import { StatusCodeEnums } from '../Enums/StatusCodeEnums';
+import { JwtSecurityService } from './Security/JwtSecurityService';
+import { UserDao } from '../Daos/UserDao';
+import LoginResponse from '../Models/Response/Login/LoginResponse';
 
 @Injectable()
 export class AuthService {
     constructor(
-        private readonly authDao: AuthDao,
-        private readonly jwtService: JwtService,
+        private readonly _userDao: UserDao,
+        private readonly _jwtService: JwtSecurityService,
     ) {}
 
-    async login(email: string, password: string): Promise<{ accessToken: string; refreshToken: string }> {
-        const user = await this.authDao.findByEmail(email);
-
-        if (!user || !(await user.validatePassword(password))) {
-            throw new Error('Invalid credentials');
+    async login(data: Auth.LoginRequest): Promise<LoginResponse> {
+        const findUser = await this._userDao.findByEmail(data.email);
+        const compare = !(await PasswordUtils.getEncryptCompare(data.password, findUser.getPassword()));
+        if (!findUser || compare) {
+            throw new HttpCustomException(`The username or password is invalid`, StatusCodeEnums.INVALID_PASSWORD_USERNAME);
         }
 
-        const payload = { userId: user.id };
-        const accessToken = this.jwtService.sign(payload, { expiresIn: '1h' });
-        const refreshToken = this.jwtService.sign(payload, { expiresIn: '7d' });
-
-        return { accessToken, refreshToken };
-    }
-
-    async validateToken(token: string): Promise<{ isValid: boolean; userId?: string }> {
-        try {
-            const decoded = this.jwtService.verify(token);
-            return { isValid: true, userId: decoded.userId };
-        } catch (error) {
-            return { isValid: false };
-        }
-    }
-
-    async refreshToken(refreshToken: string): Promise<{ newAccessToken: string; newRefreshToken: string }> {
-        try {
-            const decoded = this.jwtService.verify(refreshToken);
-            const payload = { userId: decoded.userId };
-            const newAccessToken = this.jwtService.sign(payload, { expiresIn: '1h' });
-            const newRefreshToken = this.jwtService.sign(payload, { expiresIn: '7d' });
-
-            return { newAccessToken, newRefreshToken };
-        } catch (error) {
-            throw new Error('Invalid refresh token');
-        }
+        const findUserPermission: string[] = await this._userDao.findUserPermissionByName(data.email);
+        const accessToken: string = await this._jwtService.generateAccessToken(findUser.id, findUser?.getRole()?.getName(), findUserPermission);
+        const refreshToken: string = await this._jwtService.generateRefreshToken(findUser.id, findUser?.getRole()?.getName(), findUserPermission);
+        findUser.setRefreshToken(refreshToken);
+        await this._userDao.save(findUser);
+        return new LoginResponse(accessToken, refreshToken);
     }
 }

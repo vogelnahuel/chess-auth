@@ -10,6 +10,15 @@ export class User {
     @Column({ length: 100, nullable: false })
     name: string;
 
+    @Column({ length: 100, nullable: false })
+    password: string;
+
+    @Column({ length: 255, nullable: false })
+    refreshToken: string;
+
+    @Column({ default: true })
+    isActive: boolean;
+
     @Column({ length: 255, unique: true, nullable: false })
     email: string;
 
@@ -35,6 +44,18 @@ export class User {
         return this.address;
     }
 
+    getPassword(): string {
+        return this.password;
+    }
+
+    getRefreshToken(): string {
+        return this.refreshToken;
+    }
+
+    getIsActive(): boolean {
+        return this.isActive;
+    }
+
     getRole(): Role {
         return this.role;
     }
@@ -53,6 +74,18 @@ export class User {
 
     setAddress(address: string): void {
         this.address = address;
+    }
+
+    setPassword(password: string): void {
+        this.password = password;
+    }
+
+    setRefreshToken(refreshToken: string): void {
+        this.refreshToken = refreshToken;
+    }
+
+    setIsActive(isActive: boolean): void {
+        this.isActive = isActive;
     }
 
     setRole(role: Role): void {
