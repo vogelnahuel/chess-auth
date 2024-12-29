@@ -23,21 +23,6 @@ export class RoleController {
         return { role: this.toProtoRole(role) };
     }
 
-    @GrpcMethod('RoleService', 'UpdateRole')
-    async updateRole(data: RoleProto.UpdateRoleRequest) {
-        const updatedRole = await this.roleService.update(data);
-        return {
-            message: 'Role updated successfully',
-            role: this.toProtoRole(updatedRole),
-        };
-    }
-
-    @GrpcMethod('RoleService', 'DeleteRole')
-    async deleteRole(data: RoleProto.DeleteRoleRequest) {
-        await this.roleService.remove(data.id);
-        return { message: 'Role deleted successfully' };
-    }
-
     private toProtoRole(role: Role) {
         return {
             id: role.id,

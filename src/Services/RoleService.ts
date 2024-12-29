@@ -9,6 +9,14 @@ import { FindRoleResponse } from 'src/Models/Response/Role/FindRoleResponse';
 export class RoleService {
     constructor(private readonly _roleDao: RoleDao) {}
 
+    async create(body: any) {
+        const role = new Role();
+        role.setName(body.name);
+        const newRole = await this._roleDao.save(role);
+
+        return newRole;
+    }
+
     async findById(id: number): Promise<FindRoleResponse> {
         const role = await this._roleDao.findById(id);
         if (!role) return null;

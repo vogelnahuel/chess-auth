@@ -27,4 +27,9 @@ export class PermissionService {
         });
         return response;
     }
+
+    async findAll(): Promise<Permission[]> {
+        const findPermissions: Permission[] = await this._permissionDao.findAll();
+        return findPermissions;
+    }
 }

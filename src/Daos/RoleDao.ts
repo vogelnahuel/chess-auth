@@ -7,6 +7,10 @@ import { Repository } from 'typeorm';
 export class RoleDao {
     constructor(@InjectRepository(Role) private readonly _roleRepository: Repository<Role>) {}
 
+    async save(role: Role): Promise<Role> {
+        return this._roleRepository.save(role);
+    }
+
     async findAll(): Promise<Role[]> {
         const query = this._roleRepository.createQueryBuilder('Role').getMany();
         if (!query) {

@@ -10,17 +10,11 @@ export class PermissionController {
 
     @GrpcMethod('PermissionService', 'CreatePermission')
     async createPermission(data: PermissionProto.CreatePermissionRequest) {
-        const permission = await this.permissionService.create(data);
+        const permission: any = await this.permissionService.create(data);
         return {
             message: 'Permission created successfully',
             permission: this.toProtoPermission(permission),
         };
-    }
-
-    @GrpcMethod('PermissionService', 'GetPermission')
-    async getPermission(data: PermissionProto.GetPermissionRequest) {
-        const permission = await this.permissionService.findById(data.id);
-        return { permission: this.toProtoPermission(permission) };
     }
 
     @GrpcMethod('PermissionService', 'GetAllPermissions')
@@ -29,21 +23,6 @@ export class PermissionController {
         return {
             permissions: permissions.map((permission: any) => this.toProtoPermission(permission)),
         };
-    }
-
-    @GrpcMethod('PermissionService', 'UpdatePermission')
-    async updatePermission(data: PermissionProto.UpdatePermissionRequest) {
-        const updatedPermission: any = await this.permissionService.update(data);
-        return {
-            message: 'Permission updated successfully',
-            permission: this.toProtoPermission(updatedPermission),
-        };
-    }
-
-    @GrpcMethod('PermissionService', 'DeletePermission')
-    async deletePermission(data: PermissionProto.DeletePermissionRequest) {
-        await this.permissionService.remove(data.id);
-        return { message: 'Permission deleted successfully' };
     }
 
     private toProtoPermission(permission: Permission) {
