@@ -1,13 +1,14 @@
 import { Controller } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import { UserService } from '../Services/UserService';
-
+import { user as UserProto } from '../Protos/User';
+import { User } from '../Models/Entities/UserEntity';
 @Controller()
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
     @GrpcMethod('UserService', 'CreateUser')
-    async createUser(data: UserProto.CreateUserRequest): Promise<UserProto.CreateUserResponse> {
+    async createUser(data: UserProto.CreateUserRequest) {
         const user = await this.userService.create(data);
         return {
             message: 'User created successfully',
@@ -16,13 +17,13 @@ export class UserController {
     }
 
     @GrpcMethod('UserService', 'GetUser')
-    async getUser(data: UserProto.GetUserRequest): Promise<UserProto.GetUserResponse> {
+    async getUser(data: UserProto.GetUserRequest) {
         const user = await this.userService.findById(data.id);
         return { user: this.toProtoUser(user) };
     }
 
     @GrpcMethod('UserService', 'UpdateUser')
-    async updateUser(data: UserProto.UpdateUserRequest): Promise<UserProto.UpdateUserResponse> {
+    async updateUser(data: UserProto.UpdateUserRequest){
         const updatedUser = await this.userService.update(data);
         return {
             message: 'User updated successfully',
@@ -31,12 +32,12 @@ export class UserController {
     }
 
     @GrpcMethod('UserService', 'DeleteUser')
-    async deleteUser(data: UserProto.DeleteUserRequest): Promise<UserProto.DeleteUserResponse> {
+    async deleteUser(data: UserProto.DeleteUserRequest) {
         await this.userService.remove(data.id);
         return { message: 'User deleted successfully' };
     }
 
-    private toProtoUser(user: User): UserProto.User {
+    private toProtoUser(user: User) {
         return {
             id: user.id,
             name: user.name,

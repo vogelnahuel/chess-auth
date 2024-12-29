@@ -1,15 +1,15 @@
 import { Controller } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import { RoleService } from '../Services/RoleService';
-import { RoleProto } from '../Protos/RoleProto';
-import { Role } from '../Entities/RoleEntity';
+import { Role } from '../Models/Entities/RoleEntity';
+import { role as RoleProto } from '../Protos/Role';
 
 @Controller()
 export class RoleController {
     constructor(private readonly roleService: RoleService) {}
 
     @GrpcMethod('RoleService', 'CreateRole')
-    async createRole(data: RoleProto.CreateRoleRequest): Promise<RoleProto.CreateRoleResponse> {
+    async createRole(data: RoleProto.CreateRoleRequest) {
         const role = await this.roleService.create(data);
         return {
             message: 'Role created successfully',
@@ -18,13 +18,13 @@ export class RoleController {
     }
 
     @GrpcMethod('RoleService', 'GetRole')
-    async getRole(data: RoleProto.GetRoleRequest): Promise<RoleProto.GetRoleResponse> {
-        const role = await this.roleService.findById(data.id);
+    async getRole(data: RoleProto.GetRoleRequest) {
+        const role: any = await this.roleService.findById(data.id);
         return { role: this.toProtoRole(role) };
     }
 
     @GrpcMethod('RoleService', 'UpdateRole')
-    async updateRole(data: RoleProto.UpdateRoleRequest): Promise<RoleProto.UpdateRoleResponse> {
+    async updateRole(data: RoleProto.UpdateRoleRequest) {
         const updatedRole = await this.roleService.update(data);
         return {
             message: 'Role updated successfully',
@@ -33,12 +33,12 @@ export class RoleController {
     }
 
     @GrpcMethod('RoleService', 'DeleteRole')
-    async deleteRole(data: RoleProto.DeleteRoleRequest): Promise<RoleProto.DeleteRoleResponse> {
+    async deleteRole(data: RoleProto.DeleteRoleRequest) {
         await this.roleService.remove(data.id);
         return { message: 'Role deleted successfully' };
     }
 
-    private toProtoRole(role: Role): RoleProto.Role {
+    private toProtoRole(role: Role) {
         return {
             id: role.id,
             name: role.name,
