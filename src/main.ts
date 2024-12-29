@@ -26,10 +26,10 @@ async function bootstrap() {
         options: {
             package: ['user', 'role', 'permission', 'auth'], // Nombres de los paquetes definidos en tus archivos `.proto`
             protoPath: [
-                join(__dirname, './Protos/User.proto'), // Ruta relativa al archivo User.proto
-                join(__dirname, './Protos/Role.proto'), // Ruta relativa al archivo Role.proto
-                join(__dirname, './Protos/Permission.proto'), // Ruta relativa al archivo Permission.proto
-                join(__dirname, './Protos/Login.proto'), // Ruta relativa al archivo Login.proto
+                join(__dirname, '../Protos/User.proto'), // Ruta relativa al archivo User.proto
+                join(__dirname, '../Protos/Role.proto'), // Ruta relativa al archivo Role.proto
+                join(__dirname, '../Protos/Permission.proto'), // Ruta relativa al archivo Permission.proto
+                join(__dirname, '../Protos/Login.proto'), // Ruta relativa al archivo Login.proto
             ],
             url: '0.0.0.0:50051', // Dirección y puerto para gRPC
         },
