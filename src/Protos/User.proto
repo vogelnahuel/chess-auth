@@ -1,17 +1,93 @@
 syntax = "proto3";
 
-package auth;
+package user;
 
-service AuthService {
-  rpc Login(LoginRequest) returns (LoginResponse);
+service UserService {
+  rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
+  rpc GetUser (GetUserRequest) returns (GetUserResponse);
+  rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse);
+  rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse);
 }
 
-message LoginRequest {
-  string email = 1;
-  string password = 2;
+message CreateUserRequest {
+  string name = 1;
+  string last_name = 2;
+  string password = 3;
+  string refresh_token = 4;
+  bool is_active = 5;
+  string email = 6;
+  string address = 7;
+  string location_s3 = 8;
+  string verification_code = 9;
+  string expire_verification_code = 10;
+  string role_id = 11; // ID del Role
+  repeated string permission_ids = 12; // Lista de IDs de Permissions
 }
 
-message LoginResponse {
-  string accessToken = 1;
-  string refreshToken = 2;
+message CreateUserResponse {
+  string message = 1;
+  User user = 2;
+}
+
+message GetUserRequest {
+  int32 id = 1;
+}
+
+message GetUserResponse {
+  User user = 1;
+}
+
+message UpdateUserRequest {
+  int32 id = 1;
+  string name = 2;
+  string last_name = 3;
+  string password = 4;
+  string refresh_token = 5;
+  bool is_active = 6;
+  string email = 7;
+  string address = 8;
+  string location_s3 = 9;
+  string verification_code = 10;
+  string expire_verification_code = 11;
+  string role_id = 12;
+  repeated string permission_ids = 13;
+}
+
+message UpdateUserResponse {
+  string message = 1;
+  User user = 2;
+}
+
+message DeleteUserRequest {
+  int32 id = 1;
+}
+
+message DeleteUserResponse {
+  string message = 1;
+}
+
+message User {
+  int32 id = 1;
+  string name = 2;
+  string last_name = 3;
+  string password = 4;
+  string refresh_token = 5;
+  bool is_active = 6;
+  string email = 7;
+  string address = 8;
+  string location_s3 = 9;
+  string verification_code = 10;
+  string expire_verification_code = 11;
+  Role role = 12;
+  repeated Permission permissions = 13;
+}
+
+message Role {
+  string id = 1;
+  string name = 2;
+}
+
+message Permission {
+  string id = 1;
+  string name = 2;
 }

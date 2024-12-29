@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { auth as Auth } from '../Protos/User';
+import { auth as Auth } from '../Protos/Login';
 import PasswordUtils from '../Helpers/Utils/PasswordFunctions';
 import HttpCustomException from '../Exceptions/HttpCustomException';
 import { StatusCodeEnums } from '../Enums/StatusCodeEnums';
