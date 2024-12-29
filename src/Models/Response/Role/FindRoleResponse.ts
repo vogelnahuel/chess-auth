@@ -1,5 +1,4 @@
-import { Role } from 'src/Models/Entities/Role/RoleEntity';
-
+import { Role } from '../../Entities/RoleEntity';
 export class FindRoleResponse {
     id: number;
     uuid: string;
@@ -8,8 +7,6 @@ export class FindRoleResponse {
 
     constructor(role: Role) {
         this.id = role.id || null;
-        this.uuid = role.getUuid() || null;
-        this.description = role.getDescription() || null;
         this.name = role.getName() || null;
     }
 }

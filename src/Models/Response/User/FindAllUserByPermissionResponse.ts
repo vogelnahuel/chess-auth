@@ -1,5 +1,4 @@
-import { User } from 'src/Models/Entities/User/UserEntity';
-
+import { User } from '../../Entities/UserEntity';
 export default class FindAllUserByPermissionResponse {
     uuid: string;
     name: string;
@@ -13,13 +12,10 @@ export default class FindAllUserByPermissionResponse {
     refreshToken: string;
 
     constructor(user: User) {
-        this.uuid = user.getUuid() ?? null;
         this.name = user.getName() ?? null;
         this.lastName = user.getLastName() ?? null;
         this.email = user.getEmail() ?? null;
         this.password = user.getPassword() ?? null;
-        this.verificationCode = user.getVerificationCode() ?? null;
-        this.expireVerificationCode = user.getExpireVerificationCode() ?? null;
         this.isActive = user.getIsActive() ?? null;
         this.locationS3 = user.getLocationS3() ?? null;
         this.refreshToken = user.getRefreshToken() ?? null;
