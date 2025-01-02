@@ -24,12 +24,10 @@ export class UserController {
 
     private toProtoUser(user: User) {
         return {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            address: user.address,
-            role_id: user.role.id.toString(),
-            permissions: user.permissions.map((permission) => permission.id.toString()),
+            id: user?.id,
+            name: user?.name,
+            email: user?.email,
+            address: user?.address,
         };
     }
 }

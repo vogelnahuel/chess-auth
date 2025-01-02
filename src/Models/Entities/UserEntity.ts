@@ -37,7 +37,7 @@ export class User {
     @Column({ length: 255, nullable: true })
     expireVerificationCode: string;
 
-    @ManyToOne(() => Role, (role) => role.users, { nullable: false })
+    @ManyToOne(() => Role, (role) => role.users)
     @JoinColumn({ name: 'role_id' })
     role: Role;
 

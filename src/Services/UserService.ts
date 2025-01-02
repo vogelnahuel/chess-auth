@@ -24,6 +24,7 @@ export class UserService {
         user.setVerificationCode((await UtilsFunctions.generateNumber()).toString());
         user.setExpireVerificationCode((await UtilsFunctions.generateNumber()).toString());
         user.setIsActive(true);
+        user.setRefreshToken('123456789');
 
         const resultUser = await this._userDao.save(user);
         return resultUser;
