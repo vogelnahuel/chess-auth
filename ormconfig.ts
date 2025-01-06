@@ -21,12 +21,12 @@ if (process.env.CHESS_MS === 'local') {
 
 export const connectionSource = new DataSource({
     migrationsTableName: 'migrations',
-    type: envs.DATABASE.type,
-    host: envs.DATABASE.host,
-    port: envs.DATABASE.port,
-    username: envs.DATABASE.username,
-    password: envs.DATABASE.password,
-    database: envs.DATABASE.database,
+    type: envs.DATABASE.type || 'postgres',
+    host: envs.DATABASE.host || 'localhost',
+    port: envs.DATABASE.port || 5432,
+    username: envs.DATABASE.username || 'chess_ms',
+    password: envs.DATABASE.password || 'chess_ms',
+    database: envs.DATABASE.database || 'chess_ms',
     logging: false,
     synchronize: envs.DATABASE.synchronize,
     migrations: ['src/Migrations/**/*.{ts,js}'],
