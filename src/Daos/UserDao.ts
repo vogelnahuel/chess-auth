@@ -22,7 +22,7 @@ export class UserDao {
     async findByEmail(email: string): Promise<User> {
         const query = this._userRepository
             .createQueryBuilder('user')
-            .leftJoinAndSelect('user.roleId', 'role')
+            .leftJoinAndSelect('user.role', 'role')
             .where('user.email = :email', { email: email })
             .getOne();
         if (!query) {
@@ -33,12 +33,13 @@ export class UserDao {
     async findUserPermissionByName(email: string): Promise<string[]> {
         const query = await this._userRepository
             .createQueryBuilder('user')
-            .innerJoin('atenea_forecast_user_permission_tt', 'afupt', 'afupt."user_id" = user.id')
-            .innerJoin('atenea_forecast_permission_dt', 'afpd', 'afpd.id = afupt."permission_id"')
-            .select('afpd.name')
+            .innerJoin('user_permission', 'up', 'up."user_id" = user.id')
+            .innerJoin('permission', 'p', 'p.id = up."permission_id"')
+            .select('p.name')
+
             .where('user.email = :email', { email })
             .getRawMany();
-        return query.map((item) => item.afpd_name);
+        return query.map((item) => item.p_name);
     }
 
     async findByUuid(uuid: string): Promise<User> {

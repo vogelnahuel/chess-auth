@@ -26,6 +26,7 @@ export class AuthService {
         const refreshToken: string = await this._jwtService.generateRefreshToken(findUser.id, findUser?.getRole()?.getName(), findUserPermission);
         findUser.setRefreshToken(refreshToken);
         await this._userDao.save(findUser);
+
         return new LoginResponse(accessToken, refreshToken);
     }
 }

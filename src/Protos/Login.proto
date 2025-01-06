@@ -12,6 +12,11 @@ message LoginRequest {
 }
 
 message LoginResponse {
+  string message = 1;
+  Login login = 2;
+}
+
+message Login {
   string accessToken = 1;
   string refreshToken = 2;
 }

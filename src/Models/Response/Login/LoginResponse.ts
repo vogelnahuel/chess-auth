@@ -3,8 +3,8 @@ export default class LoginResponse {
 
     public refreshToken: string;
 
-    constructor(token: string, refreshToken: string) {
-        this.accessToken = token;
+    constructor(accessToken: string, refreshToken: string) {
+        this.accessToken = accessToken;
         this.refreshToken = refreshToken;
     }
 }
