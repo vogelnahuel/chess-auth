@@ -55,6 +55,9 @@ export class User {
     })
     permissions: Permission[];
 
+    @Column({ default: false })
+    isSocialMedia: boolean;
+
     getName(): string {
         return this.name;
     }
@@ -97,6 +100,10 @@ export class User {
 
     getRole(): Role {
         return this.role;
+    }
+
+    getIsSocialMedia(): boolean {
+        return this.isSocialMedia;
     }
 
     getPermissions(): Permission[] {
@@ -149,5 +156,9 @@ export class User {
 
     setPermissions(permissions: Permission[]): void {
         this.permissions = permissions;
+    }
+
+    setIsSocialMedia(isSocialMedia: boolean): void {
+        this.isSocialMedia = isSocialMedia;
     }
 }

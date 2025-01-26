@@ -30,6 +30,45 @@ export class UserService {
         return resultUser;
     }
 
+    async registerUser(body: UserProto.RegisterUserRequest) {
+        const findUser: User = await this._userDao.findByEmail(body.email);
+        if (findUser) {
+            throw new HttpCustomException('User already exists', StatusCodeEnums.USER_ALREADY_EXISTS);
+        }
+        const user: User = new User();
+        user.setEmail(body.email);
+        user.setName('');
+        user.setLastName('');
+        user.setPassword(await PasswordUtils.getEncryptData(body.password || process.env.PASSWORD_USER_DEFAULT));
+        user.setVerificationCode((await UtilsFunctions.generateNumber()).toString());
+        user.setExpireVerificationCode((await UtilsFunctions.generateNumber()).toString());
+        user.setIsActive(true);
+        user.setRefreshToken('123456789');
+
+        const resultUser = await this._userDao.save(user);
+        return resultUser;
+    }
+
+    async registerMediaUser(body: UserProto.RegisterMediaUserRequest) {
+        const findUser: User = await this._userDao.findByEmail(body.email);
+        if (findUser) {
+            throw new HttpCustomException('User already exists', StatusCodeEnums.USER_ALREADY_EXISTS);
+        }
+        const user: User = new User();
+        user.setEmail(body.email);
+        user.setName(body.given_name);
+        user.setLastName(body.family_name);
+        user.setPassword(await PasswordUtils.getEncryptData(process.env.PASSWORD_USER_DEFAULT));
+        user.setVerificationCode((await UtilsFunctions.generateNumber()).toString());
+        user.setExpireVerificationCode((await UtilsFunctions.generateNumber()).toString());
+        user.setIsActive(true);
+        user.setRefreshToken('123456789');
+        user.setIsSocialMedia(true);
+
+        const resultUser = await this._userDao.save(user);
+        return resultUser;
+    }
+
     async updateUser(body: UserProto.CreateUserRequest) {
         const findUser: User = await this._userDao.findByUuid(body.email);
         if (body?.email) {

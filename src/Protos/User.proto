@@ -7,6 +7,8 @@ service UserService {
   rpc GetUser (GetUserRequest) returns (GetUserResponse);
   rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse);
   rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse);
+  rpc RegisterUser (RegisterUserRequest) returns (CreateUserResponse);
+  rpc RegisterMediaUser (RegisterMediaUserRequest) returns (CreateUserResponse);
 }
 
 message CreateUserRequest {
@@ -24,10 +26,26 @@ message CreateUserRequest {
   repeated string permission_ids = 12; // Lista de IDs de Permissions
 }
 
+message RegisterUserRequest {
+  string email= 1;
+  string password = 2;
+}
+
+message RegisterMediaUserRequest {
+  string email= 1;
+  string picture = 2;
+  string given_name = 3;
+  string family_name = 4;
+  string sub = 5;
+}
+
+
 message CreateUserResponse {
   string message = 1;
   User user = 2;
 }
+
+
 
 message GetUserRequest {
   int32 id = 1;

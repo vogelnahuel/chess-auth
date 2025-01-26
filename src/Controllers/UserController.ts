@@ -22,6 +22,24 @@ export class UserController {
         return { user: this.toProtoUser(user) };
     }
 
+    @GrpcMethod('UserService', 'RegisterUser')
+    async registerUser(data: UserProto.RegisterUserRequest) {
+        const user = await this.userService.registerUser(data);
+        return {
+            message: 'User created successfully',
+            user: this.toProtoUser(user),
+        };
+    }
+
+    @GrpcMethod('UserService', 'RegisterMediaUser')
+    async registerMediaUser(data: UserProto.RegisterMediaUserRequest) {
+        const user = await this.userService.registerMediaUser(data);
+        return {
+            message: 'User created successfully',
+            user: this.toProtoUser(user),
+        };
+    }
+
     private toProtoUser(user: User) {
         return {
             id: user?.id,
