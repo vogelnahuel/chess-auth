@@ -10,6 +10,8 @@ import { user as UserProto } from '../Protos/User';
 import HttpCustomException from 'src/Exceptions/HttpCustomException';
 import { StatusCodeEnums } from 'src/Enums/StatusCodeEnums';
 import FindUserResponse from '../Models/Response/User/FindUserResponse';
+import { RpcException } from '@nestjs/microservices';
+import * as grpc from '@grpc/grpc-js';
 
 @Injectable()
 export class UserService {
@@ -33,7 +35,10 @@ export class UserService {
     async registerUser(body: UserProto.RegisterUserRequest) {
         const findUser: User = await this._userDao.findByEmail(body.email);
         if (findUser) {
-            throw new HttpCustomException('User already exists', StatusCodeEnums.USER_ALREADY_EXISTS);
+            throw new RpcException({
+                code: grpc.status.ALREADY_EXISTS,
+                message: 'User already exists',
+            });
         }
         const user: User = new User();
         user.setEmail(body.email);
@@ -52,7 +57,10 @@ export class UserService {
     async registerMediaUser(body: UserProto.RegisterMediaUserRequest) {
         const findUser: User = await this._userDao.findByEmail(body.email);
         if (findUser) {
-            throw new HttpCustomException('User already exists', StatusCodeEnums.USER_ALREADY_EXISTS);
+            throw new RpcException({
+                code: grpc.status.ALREADY_EXISTS,
+                message: 'User already exists',
+            });
         }
         const user: User = new User();
         user.setEmail(body.email);
