@@ -55,6 +55,8 @@ export class UserService {
     }
 
     async registerMediaUser(body: UserProto.RegisterMediaUserRequest) {
+        console.log(body);
+
         const findUser: User = await this._userDao.findByEmail(body.email);
         if (findUser) {
             throw new RpcException({
@@ -64,8 +66,8 @@ export class UserService {
         }
         const user: User = new User();
         user.setEmail(body.email);
-        user.setName(body.given_name);
-        user.setLastName(body.family_name);
+        user.setName(body?.givenName || '');
+        user.setLastName(body?.familyName || '');
         user.setPassword(await PasswordUtils.getEncryptData(process.env.PASSWORD_USER_DEFAULT));
         user.setVerificationCode((await UtilsFunctions.generateNumber()).toString());
         user.setExpireVerificationCode((await UtilsFunctions.generateNumber()).toString());

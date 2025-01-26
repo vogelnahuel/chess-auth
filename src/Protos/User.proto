@@ -34,8 +34,8 @@ message RegisterUserRequest {
 message RegisterMediaUserRequest {
   string email= 1;
   string picture = 2;
-  string given_name = 3;
-  string family_name = 4;
+  string givenName = 3;
+  string familyName = 4;
   string sub = 5;
 }
 
