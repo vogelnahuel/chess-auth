@@ -36,7 +36,8 @@ export class UserController {
         const user = await this.userService.registerMediaUser(data);
         return {
             message: 'User created successfully',
-            user: this.toProtoUser(user),
+            user: this.toProtoUser(user.user),
+            token: user.accessToken,
         };
     }
 
@@ -46,6 +47,7 @@ export class UserController {
             name: user?.name,
             email: user?.email,
             address: user?.address,
+            refreshToken: user?.refreshToken,
         };
     }
 }
