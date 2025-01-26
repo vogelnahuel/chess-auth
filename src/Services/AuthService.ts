@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { auth as Auth } from '../Protos/Login';
 import PasswordUtils from '../Helpers/Utils/PasswordFunctions';
-import HttpCustomException from '../Exceptions/HttpCustomException';
-import { StatusCodeEnums } from '../Enums/StatusCodeEnums';
 import { JwtSecurityService } from './Security/JwtSecurityService';
 import { UserDao } from '../Daos/UserDao';
 import LoginResponse from '../Models/Response/Login/LoginResponse';
+import { RpcException } from '@nestjs/microservices';
+import * as grpc from '@grpc/grpc-js';
 
 @Injectable()
 export class AuthService {
@@ -16,9 +16,18 @@ export class AuthService {
 
     async login(data: Auth.LoginRequest): Promise<LoginResponse> {
         const findUser = await this._userDao.findByEmail(data.email);
+        if (!findUser) {
+            throw new RpcException({
+                code: grpc.status.NOT_FOUND,
+                message: 'The username or password is invalid',
+            });
+        }
         const compare = !(await PasswordUtils.getEncryptCompare(data.password, findUser.getPassword()));
         if (!findUser || compare) {
-            throw new HttpCustomException(`The username or password is invalid`, StatusCodeEnums.INVALID_PASSWORD_USERNAME);
+            throw new RpcException({
+                code: grpc.status.NOT_FOUND,
+                message: 'The username or password is invalid',
+            });
         }
 
         const findUserPermission: string[] = await this._userDao.findUserPermissionByName(data.email);
