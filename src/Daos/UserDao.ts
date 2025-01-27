@@ -57,7 +57,7 @@ export class UserDao {
     async findById(id: number) {
         const query = this._userRepository
             .createQueryBuilder('user')
-            .innerJoinAndSelect('user.userPermission', 'Permission')
+            // .innerJoinAndSelect('user.userPermission', 'Permission')
             .where('user.id = :id', { id: id })
             .getOne();
         if (!query) {

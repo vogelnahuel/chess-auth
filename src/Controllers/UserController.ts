@@ -16,7 +16,7 @@ export class UserController {
         };
     }
 
-    @GrpcMethod('UserService', 'GetUserByIdRequest')
+    @GrpcMethod('UserService', 'GetUserById')
     async getUser(data: UserProto.GetUserByIdRequest) {
         const user: any = await this.userService.findById(data.id);
         return { user: this.toProtoUser(user) };
@@ -48,6 +48,14 @@ export class UserController {
             email: user?.email,
             address: user?.address,
             refreshToken: user?.refreshToken,
+            isActive: user?.isActive,
+            lastActivity: user?.lastActivityAt,
+            locationS3: user?.locationS3,
+            roleId: user?.role?.id,
+            permissionIds: user?.permissions?.map((p) => p?.id),
+            scoreBlitz: user?.scoreBlitz,
+            scoreBullet: user?.scoreBullet,
+            scoreRapid: user?.scoreRapid,
         };
     }
 }
