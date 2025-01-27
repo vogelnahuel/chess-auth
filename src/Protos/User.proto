@@ -4,7 +4,8 @@ package user;
 
 service UserService {
   rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
-  rpc GetUser (GetUserRequest) returns (GetUserResponse);
+  rpc GetUsers (GetUserRequest) returns (GetUserResponse);
+  rpc GetUserById (GetUserByIdRequest) returns (GetUserByIdResponse);
   rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse);
   rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse);
   rpc RegisterUser (RegisterUserRequest) returns (CreateUserResponse);
@@ -51,16 +52,23 @@ message RegisterMediaUserResponse {
   User user = 2;
   string token = 3;
 }
+message GetUserByIdRequest {
+  int32 id = 1;
+}
 
 
 
 message GetUserRequest {
-  int32 id = 1;
 }
 
 message GetUserResponse {
+  repeated User users = 1;
+}
+
+message GetUserByIdResponse {
   User user = 1;
 }
+
 
 message UpdateUserRequest {
   int32 id = 1;
@@ -105,6 +113,10 @@ message User {
   string expire_verification_code = 11;
   Role role = 12;
   repeated Permission permissions = 13;
+  int32 scoreBlitz = 14;
+  int32 scoreRapid = 15;
+  int32 scoreBullet = 16;
+  string lastActivity = 17;
 }
 
 message Role {

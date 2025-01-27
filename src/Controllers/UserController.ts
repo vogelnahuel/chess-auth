@@ -16,8 +16,8 @@ export class UserController {
         };
     }
 
-    @GrpcMethod('UserService', 'GetUser')
-    async getUser(data: UserProto.GetUserRequest) {
+    @GrpcMethod('UserService', 'GetUserByIdRequest')
+    async getUser(data: UserProto.GetUserByIdRequest) {
         const user: any = await this.userService.findById(data.id);
         return { user: this.toProtoUser(user) };
     }
