@@ -41,6 +41,18 @@ export class User {
     @JoinColumn({ name: 'role_id' })
     role: Role;
 
+    @Column({ nullable: false, name: 'score_blitz', default: 1400 })
+    scoreBlitz: number;
+
+    @Column({ nullable: false, name: 'score_rapid', default: 1400 })
+    scoreRapid: number;
+
+    @Column({ nullable: false, name: 'score_bullet', default: 1400 })
+    scoreBullet: number;
+
+    @Column({ type: 'timestamp', nullable: true, name: 'last_activity_at' })
+    lastActivityAt: Date | null;
+
     @ManyToMany(() => Permission, (permission) => permission.id)
     @JoinTable({
         name: 'user_permission',
@@ -109,6 +121,33 @@ export class User {
     getPermissions(): Permission[] {
         return this.permissions;
     }
+    getLastActivityAt(): Date | null {
+        return this.lastActivityAt;
+    }
+
+    getScoreBlitz(): number {
+        return this.scoreBlitz;
+    }
+
+    setScoreBlitz(scoreBlitz: number): void {
+        this.scoreBlitz = scoreBlitz;
+    }
+
+    getScoreRapid(): number {
+        return this.scoreRapid;
+    }
+
+    setScoreRapid(scoreRapid: number): void {
+        this.scoreRapid = scoreRapid;
+    }
+
+    getScoreBullet(): number {
+        return this.scoreBullet;
+    }
+
+    setScoreBullet(scoreBullet: number): void {
+        this.scoreBullet = scoreBullet;
+    }
 
     setName(name: string): void {
         this.name = name;
@@ -160,5 +199,9 @@ export class User {
 
     setIsSocialMedia(isSocialMedia: boolean): void {
         this.isSocialMedia = isSocialMedia;
+    }
+
+    setLastActivityAt(lastActivityAt: Date | null): void {
+        this.lastActivityAt = lastActivityAt;
     }
 }
