@@ -2,7 +2,7 @@ import { Controller } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import { BookService } from '../Services/BookService';
 import { Book } from '../Models/Entities/BookEntity';
-import { book as BookProto } from '../Protos/Book.proto';
+import { book as BookProto } from '../Protos/Book';
 
 @Controller()
 export class BookController {

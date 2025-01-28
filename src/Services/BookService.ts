@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { BookDao } from '../Daos/BookDao';
 import { Book } from '../Models/Entities/BookEntity';
-import { BookProto } from '../Protos/BookProto';
-
+import { book as BookProto } from '../Protos/Book';
 @Injectable()
 export class BookService {
     constructor(private readonly _bookDao: BookDao) {}
